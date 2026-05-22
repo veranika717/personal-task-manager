@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Task Manager - Tasks</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+        }
+
+        .search-form input, .search-form select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Tasks</h1>
+
+<div class="search-form">
+    <form method="get">
+        <label>
+            <input type="text" name="keyword" placeholder="Search..." th:value="${keyword}">
+        </label>
+
+        <label>
+            <select name="status">
+                <option value="">All Statuses</option>
+                <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${status == s}"></option>
+            </select>
+        </label>
+
+        <label>
+            <select name="userId">
+                <option value="">All Users</option>
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"
+                        th:selected="${param.userId != null and param.userId[0] == user.id}"></option>
+            </select>
+        </label>
+
+        <button type="submit">Search</button>
+        <a href="/tasks">Clear</a>
+    </form>
+</div>
+
+<p>
+    <a href="/tasks/new">➕ Add New Task</a>
+</p>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>User</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="t : ${tasks}">
+        <td th:text="${t.id}"></td>
+        <td th:text="${t.title}"></td>
+        <td th:text="${t.description}"></td>
+        <td th:text="${#temporals.format(t.deadline, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${t.status}"></td>
+        <td th:text="${t.user != null ? t.user.username : 'No user'}"></td>
+        <td>
+            <div class="actions">
+                <a th:href="@{/tasks/{id}(id=${t.id})}">View</a>
+                <a th:href="@{/tasks/edit/{id}(id=${t.id})}">Edit</a>
+                <a th:href="@{/tasks/delete/{id}(id=${t.id})}" onclick="return confirm('Delete this task?')">Delete</a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<p><a href="/users">Manage Users</a></p>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <title>Edit Task</title>
+</head>
+<body>
+
+<h1>Edit Task</h1>
+
+<form th:action="@{/tasks/edit/{id}(id=${taskId})}" th:object="${task}" method="post">
+
+  <label>Title:</label>
+  <label>
+    <input type="text" th:field="*{title}">
+  </label>
+  <p style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+  <br>
+
+  <label>Description:</label>
+  <label>
+    <input type="text" th:field="*{description}">
+  </label>
+  <p style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+
+  <br>
+
+  <label>Deadline:</label>
+  <label>
+    <input type="datetime-local" th:field="*{deadline}">
+  </label>
+  <p style="color:red" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></p>
+
+  <br>
+
+  <button type="submit">Update</button>
+
+</form>
+
+<a href="/tasks">Back</a>
+
+</body>
+</html>

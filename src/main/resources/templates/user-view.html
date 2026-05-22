@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Details</title>
+</head>
+<body>
+
+<h1>User Details</h1>
+
+<p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+<p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+<p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+<p><strong>Created At:</strong> <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+
+<h2>Tasks of this user</h2>
+
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Deadline</th>
+    <th>Status</th>
+  </tr>
+  <tr th:each="t : ${user.tasks}">
+    <td th:text="${t.id}"></td>
+    <td th:text="${t.title}"></td>
+    <td th:text="${#temporals.format(t.deadline, 'yyyy-MM-dd HH:mm')}"></td>
+    <td th:text="${t.status}"></td>
+  </tr>
+</table>
+
+<a href="/users">Back to Users</a>
+
+</body>
+</html>
