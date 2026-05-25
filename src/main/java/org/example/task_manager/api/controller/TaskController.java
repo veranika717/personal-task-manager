@@ -54,15 +54,4 @@ public class TaskController {
     public Task done(@PathVariable Long id) {
         return taskService.markDone(id);
     }
-    @GetMapping("/tasks")
-    public String list(Model model,
-                       @RequestParam(required = false) String keyword,
-                       @RequestParam(required = false) Status status) {
-        List<Task> tasks = taskService.search(keyword, status);
-        model.addAttribute("tasks", tasks);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("status", status);
-        model.addAttribute("statuses", Status.values());
-        return "tasks";
-    }
 }
