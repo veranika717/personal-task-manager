@@ -1,23 +1,187 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="">-->
+<!--<head>-->
+<!--    <title>View Task</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Task Details</h1>-->
+
+<!--<p><strong>ID:</strong> <span th:text="${task.id}"></span></p>-->
+<!--<p><strong>Title:</strong> <span th:text="${task.title}"></span></p>-->
+<!--<p><strong>Description:</strong> <span th:text="${task.description}"></span></p>-->
+<!--<p><strong>Deadline:</strong> <span th:text="${#temporals.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></span></p>-->
+<!--<p><strong>Status:</strong> <span th:text="${task.status}"></span></p>-->
+<!--<p><strong>User:</strong> <span th:text="${task.user != null ? task.user.username : 'No user'}"></span></p>-->
+
+<!--<p>-->
+<!--    <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a> |-->
+<!--    <a href="/tasks">Back to list</a>-->
+<!--</p>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>View Task</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f1117;
+            color: #e5e5e5;
+        }
+
+        .container {
+            width: 40%;
+            margin: 50px auto;
+            background: #161a22;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #0f1117;
+            border-radius: 8px;
+        }
+
+        .label {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .value {
+            font-size: 16px;
+            margin-top: 3px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .UPCOMING {
+            background: #facc15;
+            color: black;
+        }
+
+        .DONE {
+            background: #22c55e;
+            color: black;
+        }
+
+        .OVERDUE {
+            background: #ef4444;
+            color: white;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        a {
+            text-decoration: none;
+            color: #60a5fa;
+        }
+
+        .edit {
+            background: #f59e0b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: black;
+        }
+
+        .edit:hover {
+            background: #d97706;
+        }
+
+        .back {
+            background: #334155;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .back:hover {
+            background: #1f2937;
+        }
+
+    </style>
 </head>
+
 <body>
 
-<h1>Task Details</h1>
+<div class="container">
 
-<p><strong>ID:</strong> <span th:text="${task.id}"></span></p>
-<p><strong>Title:</strong> <span th:text="${task.title}"></span></p>
-<p><strong>Description:</strong> <span th:text="${task.description}"></span></p>
-<p><strong>Deadline:</strong> <span th:text="${#temporals.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></span></p>
-<p><strong>Status:</strong> <span th:text="${task.status}"></span></p>
-<p><strong>User:</strong> <span th:text="${task.user != null ? task.user.username : 'No user'}"></span></p>
+    <h1>📌 Task Details</h1>
 
-<p>
-    <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a> |
-    <a href="/tasks">Back to list</a>
-</p>
+    <div class="row">
+        <div class="label">ID</div>
+        <div class="value" th:text="${task.id}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Title</div>
+        <div class="value" th:text="${task.title}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Description</div>
+        <div class="value" th:text="${task.description}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Deadline</div>
+        <div class="value"
+             th:text="${#temporals.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Status</div>
+        <div class="value">
+            <span class="status"
+                  th:classappend="${task.status}"
+                  th:text="${task.status}">
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="label">User</div>
+        <div class="value"
+             th:text="${task.user != null ? task.user.username : 'No user'}">
+        </div>
+    </div>
+
+    <div class="buttons">
+
+        <a class="edit"
+           th:href="@{/tasks/edit/{id}(id=${task.id})}">
+            ✏ Edit
+        </a>
+
+        <a class="back" href="/tasks">
+            ← Back
+        </a>
+
+    </div>
+
+</div>
 
 </body>
 </html>

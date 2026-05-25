@@ -1,35 +1,177 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>User Details</title>
+    <title>User Details</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f1117;
+            color: #e5e5e5;
+        }
+
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background: #161a22;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .info {
+            background: #0f1117;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .label {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .value {
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #0f1117;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #2a2f3a;
+            text-align: left;
+        }
+
+        th {
+            background: #1f2430;
+            color: white;
+        }
+
+        tr:hover {
+            background: #1a1f2b;
+        }
+
+        .status {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .UPCOMING {
+            background: #facc15;
+            color: black;
+        }
+
+        .DONE {
+            background: #22c55e;
+            color: black;
+        }
+
+        .OVERDUE {
+            background: #ef4444;
+            color: white;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
 </head>
+
 <body>
 
-<h1>User Details</h1>
+<div class="container">
 
-<p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
-<p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-<p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-<p><strong>Created At:</strong> <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <h1>👤 User Details</h1>
 
-<h2>Tasks of this user</h2>
+    <div class="info">
 
-<table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Title</th>
-    <th>Deadline</th>
-    <th>Status</th>
-  </tr>
-  <tr th:each="t : ${user.tasks}">
-    <td th:text="${t.id}"></td>
-    <td th:text="${t.title}"></td>
-    <td th:text="${#temporals.format(t.deadline, 'yyyy-MM-dd HH:mm')}"></td>
-    <td th:text="${t.status}"></td>
-  </tr>
-</table>
+        <div class="row">
+            <div class="label">ID</div>
+            <div class="value" th:text="${user.id}"></div>
+        </div>
 
-<a href="/users">Back to Users</a>
+        <div class="row">
+            <div class="label">Username</div>
+            <div class="value" th:text="${user.username}"></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Email</div>
+            <div class="value" th:text="${user.email}"></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Created At</div>
+            <div class="value"
+                 th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}">
+            </div>
+        </div>
+
+    </div>
+
+    <h2>📋 Tasks</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Deadline</th>
+            <th>Status</th>
+        </tr>
+
+        <tr th:each="t : ${user.tasks}">
+
+            <td th:text="${t.id}"></td>
+            <td th:text="${t.title}"></td>
+
+            <td th:text="${#temporals.format(t.deadline, 'yyyy-MM-dd HH:mm')}"></td>
+
+            <td>
+                <span class="status"
+                      th:classappend="${t.status}"
+                      th:text="${t.status}">
+                </span>
+            </td>
+
+        </tr>
+
+    </table>
+
+    <a class="back" href="/users">← Back to Users</a>
+
+</div>
 
 </body>
 </html>
