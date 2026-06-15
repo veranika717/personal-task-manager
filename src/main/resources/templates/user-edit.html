@@ -75,6 +75,12 @@
             text-decoration: underline;
         }
 
+        .error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
     </style>
 </head>
 
@@ -88,10 +94,12 @@
           th:object="${user}" method="post">
 
         <label>Username</label>
-        <input type="text" th:field="*{username}" required>
+        <input type="text" th:field="*{username}">
+        <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
 
         <label>Email</label>
-        <input type="email" th:field="*{email}" required>
+        <input type="email" th:field="*{email}">
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 
         <button type="submit">Update User</button>
 

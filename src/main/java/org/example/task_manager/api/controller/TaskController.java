@@ -4,7 +4,6 @@ import org.example.task_manager.dto.TaskDTO;
 import org.example.task_manager.model.Status;
 import org.example.task_manager.model.Task;
 import org.example.task_manager.service.TaskService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

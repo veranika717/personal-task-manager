@@ -1,8 +1,11 @@
 package org.example.task_manager.service;
 
+import org.example.task_manager.dto.UserDTO;
 import org.example.task_manager.exception.UserNotFoundException;
 import org.example.task_manager.model.User;
 import org.example.task_manager.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,12 +14,18 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User create(User user) {
+    public User create(UserDTO dto) {
+        log.info("Creating user username={}", dto.getUsername());
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
         return userRepository.save(user);
     }
 
@@ -30,16 +39,20 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        log.info("Deleting user id={}", id);
         if (!userRepository.existsById(id)) {
+            log.warn("User not found id={}", id);
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
+        log.info("User deleted id={}", id);
     }
 
-    public User update(Long id, User updatedUser) {
+    public User update(Long id, UserDTO dto) {
+        log.info("Updating user id={}", id);
         User existing = getById(id);
-        existing.setUsername(updatedUser.getUsername());
-        existing.setEmail(updatedUser.getEmail());
+        existing.setUsername(dto.getUsername());
+        existing.setEmail(dto.getEmail());
         return userRepository.save(existing);
     }
 }

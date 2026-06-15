@@ -1,5 +1,6 @@
 package org.example.task_manager.api.controller;
 
+import org.example.task_manager.dto.UserDTO;
 import org.example.task_manager.model.User;
 import org.example.task_manager.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
-        return userService.create(user);
+    public User create(@RequestBody UserDTO dto) {
+        return userService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        return userService.update(id, user);
+    public User update(@PathVariable Long id, @RequestBody UserDTO dto) {
+        return userService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
