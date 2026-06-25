@@ -2,10 +2,14 @@ package org.example.task_manager.service;
 
 import org.example.task_manager.dto.UserDTO;
 import org.example.task_manager.exception.UserNotFoundException;
+import org.example.task_manager.model.Role;
 import org.example.task_manager.model.User;
 import org.example.task_manager.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authorization.method.HandleAuthorizationDenied;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +18,12 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
-
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User create(UserDTO dto) {
@@ -26,6 +31,8 @@ public class UserService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(dto.getRole() != null ? dto.getRole() : Role.USER);
         return userRepository.save(user);
     }
 
@@ -35,6 +42,12 @@ public class UserService {
     }
 
     public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @HandleAuthorizationDenied(handlerClass = UserAccessDeniedHandler.class)
+    public List<User> getAllSecured() {
         return userRepository.findAll();
     }
 
@@ -53,6 +66,12 @@ public class UserService {
         User existing = getById(id);
         existing.setUsername(dto.getUsername());
         existing.setEmail(dto.getEmail());
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            existing.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        if (dto.getRole() != null) {
+            existing.setRole(dto.getRole());
+        }
         return userRepository.save(existing);
     }
 }

@@ -2,9 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create User</title>
-
     <style>
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -33,7 +31,7 @@
             color: #cbd5e1;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             border-radius: 8px;
@@ -41,9 +39,10 @@
             background: #0f1117;
             color: white;
             outline: none;
+            box-sizing: border-box;
         }
 
-        input:focus {
+        input:focus, select:focus {
             border: 1px solid #4f46e5;
         }
 
@@ -74,24 +73,19 @@
         .back:hover {
             text-decoration: underline;
         }
+
         .error {
             color: #ef4444;
             font-size: 13px;
             margin-top: 3px;
         }
-
     </style>
 </head>
-
 <body>
-
 <div class="container">
-
     <h1>➕ Create User</h1>
 
-    <form th:action="@{/users/new}"
-          th:object="${user}"
-          method="post">
+    <form th:action="@{/users/new}" th:object="${user}" method="post">
 
         <label>Username</label>
         <input type="text" th:field="*{username}">
@@ -101,13 +95,20 @@
         <input type="email" th:field="*{email}">
         <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 
-        <button type="submit">Create User</button>
+        <label>Password</label>
+        <input type="password" th:field="*{password}" placeholder="Enter password">
+        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
+        <label>Role</label>
+        <select th:field="*{role}">
+            <option value="USER">USER</option>
+            <option value="MANAGER">MANAGER</option>
+        </select>
+
+        <button type="submit">Create User</button>
     </form>
 
     <a class="back" href="/users">← Back</a>
-
 </div>
-
 </body>
 </html>

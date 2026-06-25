@@ -101,6 +101,12 @@
         <input type="email" th:field="*{email}">
         <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 
+        <label>Role</label>
+        <select th:field="*{role}">
+            <option value="USER">USER</option>
+            <option value="MANAGER">MANAGER</option>
+        </select>
+
         <button type="submit">Update User</button>
 
     </form>

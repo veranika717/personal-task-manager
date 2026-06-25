@@ -1,5 +1,6 @@
 package org.example.task_manager.api.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.example.task_manager.dto.TaskDTO;
 import org.example.task_manager.model.Status;
 import org.example.task_manager.model.Task;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
+@SecurityRequirement(name = "bearerAuth")
 public class TaskController {
 
     private final TaskService taskService;
@@ -44,6 +46,7 @@ public class TaskController {
     public void delete(@PathVariable Long id) {
         taskService.delete(id);
     }
+
     @PutMapping("/{id}")
     public Task update(@PathVariable Long id, @RequestBody TaskDTO dto) {
         return taskService.update(id, dto);

@@ -8,10 +8,10 @@ import org.example.task_manager.model.Task;
 import org.example.task_manager.model.User;
 import org.example.task_manager.repository.TaskRepository;
 import org.example.task_manager.repository.UserRepository;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,7 +42,7 @@ public class TaskService {
         return saved;
     }
 
-
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER')")
     public List<Task> getAll() {
         List<Task> tasks = taskRepository.findAll();
         tasks.forEach(this::recalcStatus);
@@ -100,7 +100,6 @@ public class TaskService {
     }
 
     private void recalcStatus(Task task) {
-
         if (task.getStatus() == Status.DONE) {
             return;
         }
